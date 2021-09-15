@@ -1,4 +1,5 @@
-import 'package:flutter_web/material.dart';
+// @dart=2.9
+import 'package:flutter/material.dart';
 import 'flutter_html.dart';
 import 'route.dart';
 
@@ -10,6 +11,7 @@ class Privacy extends StatefulWidget {
       builder: (_) => Privacy(),
     );
   }
+
   static Route<dynamic> route() {
     return SimpleRoute(
       name: '/privacy',
@@ -17,6 +19,7 @@ class Privacy extends StatefulWidget {
       builder: (_) => Privacy(),
     );
   }
+
   @override
   _PrivacyState createState() => _PrivacyState();
 }
@@ -38,7 +41,8 @@ class _PrivacyState extends State<Privacy> {
                 child: Padding(
                   padding: const EdgeInsets.all(50),
                   child: Html(
-                    defaultTextStyle: TextStyle(color: Colors.white, fontFamily: "Roboto"),
+                    defaultTextStyle:
+                        TextStyle(color: Colors.white, fontFamily: "Roboto"),
                     data: """
                     <H1><center>PRIVACY POLICY MODEL FOR TAP HERO MOBILE APPLICATION</center></H1>
 <p>

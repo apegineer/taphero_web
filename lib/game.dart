@@ -1,7 +1,8 @@
+// @dart=2.9
 import 'dart:html' as html;
 import 'dart:async';
 
-import 'package:flutter_web/material.dart';
+import 'package:flutter/material.dart';
 
 import 'powerups.dart';
 import 'scroll.dart';
@@ -11,7 +12,6 @@ import 'route.dart';
 import 'welcome.dart';
 
 class Game extends StatefulWidget {
-
   static Route<dynamic> routeAnim() {
     return FadeRoute(
       name: '/game',
@@ -32,7 +32,8 @@ class Game extends StatefulWidget {
   _GameState createState() => _GameState();
 }
 
-class _GameState extends State<Game> with WidgetsBindingObserver, TickerProviderStateMixin {
+class _GameState extends State<Game>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   AnimationController controller;
   int duration = 1000 * 30;
   int durationBackup;
@@ -90,9 +91,11 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
       if (damageBar - damageUser <= 0) {
         damageBar = damageBar - damageUser;
         coins = coins + 20;
-        multiplier = (bossIndex + 1 >= bosses.length) ? multiplier * 1.25 : multiplier;
+        multiplier =
+            (bossIndex + 1 >= bosses.length) ? multiplier * 1.25 : multiplier;
         level = (bossIndex + 1 >= bosses.length) ? ++level : level;
-        addedDuration = (bossIndex + 1 >= bosses.length) ? 1000 * 20 : 1000 * 10;
+        addedDuration =
+            (bossIndex + 1 >= bosses.length) ? 1000 * 20 : 1000 * 10;
         bossIndex = (bossIndex + 1 >= bosses.length) ? 0 : ++bossIndex;
         damageBar = bosses[bossIndex].life.toDouble() * multiplier;
         earnedCoin = true;
@@ -210,7 +213,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
   void share() {
     var shareMap = Map<String, String>();
     shareMap['title'] = 'Tap Hero';
-    shareMap['text'] = 'Tap Hero: I survive until ${bosses[bossIndex].name} LV$level! Now is your turn!';
+    shareMap['text'] =
+        'Tap Hero: I survive until ${bosses[bossIndex].name} LV$level! Now is your turn!';
     html.window.navigator.share(shareMap);
   }
 
@@ -236,9 +240,13 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
       alignment: Alignment.topCenter,
       child: Container(
         color: Colors.transparent,
-        height: width(context) >= 700 ? height(context) : height(context) - listHeight(context),
+        height: width(context) >= 700
+            ? height(context)
+            : height(context) - listHeight(context),
         width: width(context) >= 700
-            ? width(context) >= 700 && width(context) <= 900 ? 400 : width(context) - 400
+            ? width(context) >= 700 && width(context) <= 900
+                ? 400
+                : width(context) - 400
             : width(context),
         child: Stack(
           children: <Widget>[
@@ -264,7 +272,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                   opacity: tap ? 0.4 : 1.0,
                   child: Image.asset(
                     bosses[bossIndex].asset,
-                    height: width(context) / 2.5 < 380 ? width(context) / 2.5 : 380,
+                    height:
+                        width(context) / 2.5 < 380 ? width(context) / 2.5 : 380,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -293,7 +302,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                       Align(
                         alignment: Alignment.topRight,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 20, right: 15),
+                          padding: const EdgeInsets.only(
+                              top: 10, bottom: 20, right: 15),
                           child: Stack(children: <Widget>[
                             FancyButton(
                               child: Text(
@@ -418,7 +428,9 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
       color: Colors.black,
       height: listHeight(context),
       width: width(context) >= 700
-          ? width(context) >= 700 && width(context) <= 900 ? width(context) - 700 + 300 : 400
+          ? width(context) >= 700 && width(context) <= 900
+              ? width(context) - 700 + 300
+              : 400
           : width(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,7 +441,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 15.0),
                     child: Text(
                       "Power-Ups",
                       style: Utils.textStyle(12.0),
@@ -440,7 +453,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
               Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 15.0),
                   child: FancyButton(
                     size: 20,
                     color: Color(0xFF67AC5B),
@@ -467,7 +481,9 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                   PowerUps powerUp = list[position];
                   int bgColor = !powerUp.bought && coins >= powerUp.coins
                       ? 0xFF808080
-                      : !powerUp.bought ? 0xFF505050 : 0xFF202020;
+                      : !powerUp.bought
+                          ? 0xFF505050
+                          : 0xFF202020;
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -481,7 +497,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                           children: <Widget>[
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
                                 child: Text(
                                   powerUp.name,
                                   style: Utils.textStyle(11.0),
@@ -489,23 +506,31 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 20.0),
                               child: FancyButton(
                                 size: 20,
                                 child: Row(
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10.0, bottom: 2, top: 2),
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, bottom: 2, top: 2),
                                       child: Text(
                                         !powerUp.bought ? "BUY" : "BOUGHT",
-                                        style:
-                                        Utils.textStyle(13.0, color: !powerUp.bought ? Colors.white : Colors.grey),
+                                        style: Utils.textStyle(13.0,
+                                            color: !powerUp.bought
+                                                ? Colors.white
+                                                : Colors.grey),
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 8.0, right: !powerUp.bought ? 2.0 : 0.0),
+                                      padding: EdgeInsets.only(
+                                          left: 8.0,
+                                          right: !powerUp.bought ? 2.0 : 0.0),
                                       child: Text(
-                                        !powerUp.bought ? powerUp.coins.toString() : "",
+                                        !powerUp.bought
+                                            ? powerUp.coins.toString()
+                                            : "",
                                         style: Utils.textStyle(13.0),
                                       ),
                                     ),
@@ -516,7 +541,9 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                                     ? Colors.deepPurpleAccent
                                     : Colors.deepPurple,
                                 onPressed:
-                                !powerUp.bought && coins >= powerUp.coins ? () => buyPowerUp(position) : null,
+                                    !powerUp.bought && coins >= powerUp.coins
+                                        ? () => buyPowerUp(position)
+                                        : null,
                               ),
                             )
                           ],
@@ -561,7 +588,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
     }
 
     controller = null;
-    controller = AnimationController(vsync: this, duration: Duration(milliseconds: durationBackup + add));
+    controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: durationBackup + add));
     controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
     controller.addListener(() {
       setState(() {
@@ -685,7 +713,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
                     padding: const EdgeInsets.only(top: 30),
                     child: FancyButton(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
                         child: Text(
                           "SHARE SCORE",
                           textAlign: TextAlign.center,
@@ -713,7 +742,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
   }
 
   Future<bool> _backHome() async {
-    return await Navigator.pop(context, true);
+    Navigator.pop(context, true);
+    return true;
   }
 
   @override
@@ -726,7 +756,10 @@ class _GameState extends State<Game> with WidgetsBindingObserver, TickerProvider
             children: <Widget>[
               gameEngine(context),
               showGameOver(),
-              Text(textEnd, style: TextStyle(fontSize: 100),)
+              Text(
+                textEnd,
+                style: TextStyle(fontSize: 100),
+              )
             ],
           ),
         );

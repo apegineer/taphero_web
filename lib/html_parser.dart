@@ -1,21 +1,22 @@
+// @dart=2.9
 import 'dart:convert';
 import 'image_properties.dart';
-import 'package:flutter_web/gestures.dart';
-import 'package:flutter_web/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as parser;
 
 typedef CustomRender = Widget Function(dom.Node node, List<Widget> children);
 typedef CustomTextStyle = TextStyle Function(
-    dom.Node node,
-    TextStyle baseStyle,
-    );
+  dom.Node node,
+  TextStyle baseStyle,
+);
 typedef CustomEdgeInsets = EdgeInsets Function(dom.Node node);
 typedef OnLinkTap = void Function(String url);
 typedef OnImageTap = void Function();
 
 const OFFSET_TAGS_FONT_SIZE_FACTOR =
-0.7; //The ratio of the parent font for each of the offset tags: sup or sub
+    0.7; //The ratio of the parent font for each of the offset tags: sup or sub
 
 class LinkTextSpan extends TextSpan {
   // Beware!
@@ -34,18 +35,18 @@ class LinkTextSpan extends TextSpan {
 
   LinkTextSpan(
       {TextStyle style,
-        this.url,
-        String text,
-        OnLinkTap onLinkTap,
-        List<TextSpan> children})
+      this.url,
+      String text,
+      OnLinkTap onLinkTap,
+      List<TextSpan> children})
       : super(
-      style: style,
-      text: text,
-      children: children ?? <TextSpan>[],
-      recognizer: TapGestureRecognizer()
-        ..onTap = () {
-          onLinkTap(url);
-        });
+            style: style,
+            text: text,
+            children: children ?? <TextSpan>[],
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                onLinkTap(url);
+              });
 }
 
 class LinkBlock extends Container {
@@ -62,15 +63,15 @@ class LinkBlock extends Container {
     OnLinkTap onLinkTap,
     this.children,
   }) : super(
-      padding: padding,
-      margin: margin,
-      child: GestureDetector(
-          onTap: () {
-            onLinkTap(url);
-          },
-          child: Column(
-            children: children,
-          )));
+            padding: padding,
+            margin: margin,
+            child: GestureDetector(
+                onTap: () {
+                  onLinkTap(url);
+                },
+                child: Column(
+                  children: children,
+                )));
 }
 
 class BlockText extends StatelessWidget {
@@ -82,10 +83,10 @@ class BlockText extends StatelessWidget {
 
   BlockText(
       {@required this.child,
-        this.padding,
-        this.margin,
-        this.leadingChar = '',
-        this.decoration});
+      this.padding,
+      this.margin,
+      this.leadingChar = '',
+      this.decoration});
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +119,15 @@ class ParseContext {
 
   ParseContext(
       {this.rootWidgetList,
-        this.parentElement,
-        this.indentLevel = 0,
-        this.listCount = 0,
-        this.listChar = '•',
-        this.blockType,
-        this.condenseWhitespace = true,
-        this.spansOnly = false,
-        this.inBlock = false,
-        this.childStyle}) {
+      this.parentElement,
+      this.indentLevel = 0,
+      this.listCount = 0,
+      this.listChar = '•',
+      this.blockType,
+      this.condenseWhitespace = true,
+      this.spansOnly = false,
+      this.inBlock = false,
+      this.childStyle}) {
     childStyle = childStyle ?? TextStyle();
   }
 
@@ -407,7 +408,7 @@ class HtmlRichTextParser extends StatelessWidget {
           if (parseContext.blockType == 'blockquote') {
             decoration = BoxDecoration(
               border:
-              Border(left: BorderSide(color: Colors.black38, width: 2.0)),
+                  Border(left: BorderSide(color: Colors.black38, width: 2.0)),
             );
             parseContext.childStyle = parseContext.childStyle.merge(TextStyle(
               fontStyle: FontStyle.italic,
@@ -439,7 +440,7 @@ class HtmlRichTextParser extends StatelessWidget {
         // add this node to the parent as another LinkTextSpan
         parseContext.parentElement.children.add(LinkTextSpan(
           style:
-          parseContext.parentElement.style.merge(parseContext.childStyle),
+              parseContext.parentElement.style.merge(parseContext.childStyle),
           url: parseContext.parentElement.url,
           text: finalText,
           onLinkTap: onLinkTap,
@@ -469,7 +470,7 @@ class HtmlRichTextParser extends StatelessWidget {
         TextStyle childStyle = parseContext.childStyle ?? TextStyle();
 
         switch (node.localName) {
-        //"b","i","em","strong","code","u","small","abbr","acronym"
+          //"b","i","em","strong","code","u","small","abbr","acronym"
           case "b":
           case "strong":
             childStyle =
@@ -540,7 +541,7 @@ class HtmlRichTextParser extends StatelessWidget {
           case "data":
           case "time":
           case "span":
-          //No additional styles
+            //No additional styles
             break;
         }
 
@@ -560,9 +561,9 @@ class HtmlRichTextParser extends StatelessWidget {
 
         switch (node.localName) {
           case "a":
-          // if this item has block children, we create
-          // a container and gesture recognizer for the entire
-          // element, otherwise, we create a LinkTextSpan
+            // if this item has block children, we create
+            // a container and gesture recognizer for the entire
+            // element, otherwise, we create a LinkTextSpan
             String url = node.attributes['href'] ?? null;
 
             if (_hasBlockChild(node)) {
@@ -609,7 +610,7 @@ class HtmlRichTextParser extends StatelessWidget {
             break;
 
           case "table":
-          // new block, so clear out the parent element
+            // new block, so clear out the parent element
             parseContext.parentElement = null;
             nextContext.parentElement = Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -620,7 +621,7 @@ class HtmlRichTextParser extends StatelessWidget {
                 child: nextContext.parentElement));
             break;
 
-        // we don't handle tbody, thead, or tfoot elements separately for now
+          // we don't handle tbody, thead, or tfoot elements separately for now
           case "tbody":
           case "thead":
           case "tfoot":
@@ -637,7 +638,7 @@ class HtmlRichTextParser extends StatelessWidget {
                     ? FontWeight.bold
                     : FontWeight.normal));
             RichText text =
-            RichText(text: TextSpan(text: '', children: <TextSpan>[]));
+                RichText(text: TextSpan(text: '', children: <TextSpan>[]));
             Expanded cell = Expanded(
               flex: colspan,
               child: Container(padding: EdgeInsets.all(1.0), child: text),
@@ -655,9 +656,9 @@ class HtmlRichTextParser extends StatelessWidget {
             nextContext.parentElement = row;
             break;
 
-        // treat captions like a row with one expanded cell
+          // treat captions like a row with one expanded cell
           case "caption":
-          // create the row
+            // create the row
             Row row = Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[],
@@ -735,7 +736,7 @@ class HtmlRichTextParser extends StatelessWidget {
                               : null),
                       scale: imageProperties?.scale ?? 1.0,
                       matchTextDirection:
-                      imageProperties?.matchTextDirection ?? false,
+                          imageProperties?.matchTextDirection ?? false,
                       centerSlice: imageProperties?.centerSlice,
                       alignment: imageProperties?.alignment ?? Alignment.center,
                       colorBlendMode: imageProperties?.colorBlendMode,
@@ -744,9 +745,9 @@ class HtmlRichTextParser extends StatelessWidget {
                       repeat: imageProperties?.repeat ?? ImageRepeat.noRepeat,
                       semanticLabel: imageProperties?.semanticLabel,
                       excludeFromSemantics:
-                      (imageProperties?.semanticLabel == null)
-                          ? true
-                          : false,
+                          (imageProperties?.semanticLabel == null)
+                              ? true
+                              : false,
                     ),
                     onTap: onImageTap,
                   ));
@@ -769,7 +770,7 @@ class HtmlRichTextParser extends StatelessWidget {
                               : null),
                       scale: imageProperties?.scale ?? 1.0,
                       matchTextDirection:
-                      imageProperties?.matchTextDirection ?? false,
+                          imageProperties?.matchTextDirection ?? false,
                       centerSlice: imageProperties?.centerSlice,
                       alignment: imageProperties?.alignment ?? Alignment.center,
                       colorBlendMode: imageProperties?.colorBlendMode,
@@ -778,9 +779,9 @@ class HtmlRichTextParser extends StatelessWidget {
                       repeat: imageProperties?.repeat ?? ImageRepeat.noRepeat,
                       semanticLabel: imageProperties?.semanticLabel,
                       excludeFromSemantics:
-                      (imageProperties?.semanticLabel == null)
-                          ? true
-                          : false,
+                          (imageProperties?.semanticLabel == null)
+                              ? true
+                              : false,
                     ),
                     onTap: onImageTap,
                   ));
@@ -788,7 +789,7 @@ class HtmlRichTextParser extends StatelessWidget {
                 if (node.attributes['alt'] != null) {
                   parseContext.rootWidgetList.add(BlockText(
                       margin:
-                      EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+                          EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
                       padding: EdgeInsets.all(0.0),
                       child: RichText(
                           textAlign: TextAlign.center,
@@ -873,7 +874,7 @@ class HtmlRichTextParser extends StatelessWidget {
             if (parseContext.blockType == 'blockquote') {
               decoration = BoxDecoration(
                 border:
-                Border(left: BorderSide(color: Colors.black38, width: 2.0)),
+                    Border(left: BorderSide(color: Colors.black38, width: 2.0)),
               );
               nextContext.childStyle = nextContext.childStyle.merge(TextStyle(
                 fontStyle: FontStyle.italic,
@@ -882,10 +883,10 @@ class HtmlRichTextParser extends StatelessWidget {
             BlockText blockText = BlockText(
               margin: node.localName != 'body'
                   ? _customEdgeInsets ??
-                  EdgeInsets.only(
-                      top: 8.0,
-                      bottom: 8.0,
-                      left: parseContext.indentLevel * indentSize)
+                      EdgeInsets.only(
+                          top: 8.0,
+                          bottom: 8.0,
+                          left: parseContext.indentLevel * indentSize)
                   : EdgeInsets.zero,
               padding: EdgeInsets.all(2.0),
               decoration: decoration,
@@ -1075,7 +1076,7 @@ class HtmlOldParser extends StatelessWidget {
   Widget _parseNode(dom.Node node) {
     if (customRender != null) {
       final Widget customWidget =
-      customRender(node, _parseNodeList(node.nodes));
+          customRender(node, _parseNodeList(node.nodes));
       if (customWidget != null) {
         return customWidget;
       }
@@ -1186,7 +1187,7 @@ class HtmlOldParser extends StatelessWidget {
         case "blockquote":
           return Padding(
             padding:
-            EdgeInsets.fromLTRB(40.0, blockSpacing, 40.0, blockSpacing),
+                EdgeInsets.fromLTRB(40.0, blockSpacing, 40.0, blockSpacing),
             child: Container(
               width: width,
               child: Wrap(
@@ -1310,7 +1311,7 @@ class HtmlOldParser extends StatelessWidget {
         case "figure":
           return Padding(
               padding:
-              EdgeInsets.fromLTRB(40.0, blockSpacing, 40.0, blockSpacing),
+                  EdgeInsets.fromLTRB(40.0, blockSpacing, 40.0, blockSpacing),
               child: Column(
                 children: _parseNodeList(node.nodes),
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1661,7 +1662,7 @@ class HtmlOldParser extends StatelessWidget {
           );
         case "sub":
         case "sup":
-        //Use builder to capture the parent font to inherit the font styles
+          //Use builder to capture the parent font to inherit the font styles
           return Builder(builder: (BuildContext context) {
             final DefaultTextStyle parent = DefaultTextStyle.of(context);
             TextStyle parentStyle = parent.style;
@@ -1684,7 +1685,7 @@ class HtmlOldParser extends StatelessWidget {
                   text: node.text,
                   style: parentStyle.merge(TextStyle(
                       fontSize:
-                      parentStyle.fontSize * OFFSET_TAGS_FONT_SIZE_FACTOR)),
+                          parentStyle.fontSize * OFFSET_TAGS_FONT_SIZE_FACTOR)),
                 ),
                 textDirection: TextDirection.ltr);
             painter.layout();
@@ -1747,7 +1748,7 @@ class HtmlOldParser extends StatelessWidget {
             ),
           );
         case "template":
-        //Not usually displayed in HTML
+          //Not usually displayed in HTML
           return Container();
         case "tfoot":
           return Column(

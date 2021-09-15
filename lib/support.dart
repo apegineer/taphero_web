@@ -1,5 +1,6 @@
+// @dart=2.9
 import 'dart:html' as html;
-import 'package:flutter_web/material.dart';
+import 'package:flutter/material.dart';
 import 'route.dart';
 import 'button.dart';
 import 'flutter_html.dart';
@@ -93,7 +94,8 @@ class _SupportState extends State<Support> {
                           color: Color(0xFFEFF3ED),
                           size: 40,
                           onPressed: () {
-                            html.window.location.href = "mailto:mkiisoft@gmail.com?subject=TapHero Support";
+                            html.window.location.href =
+                                "mailto:mkiisoft@gmail.com?subject=TapHero Support";
                           },
                         ),
                       ),

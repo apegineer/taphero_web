@@ -1,10 +1,11 @@
+// @dart=2.9
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:math';
-import 'package:flutter_web_ui/ui.dart' as ui;
+import 'dart:ui' as ui;
 
-import 'package:flutter_web/material.dart';
-import 'package:flutter_web/services.dart' show rootBundle;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'simple_animations_package.dart';
 
@@ -18,7 +19,6 @@ class Particles extends StatefulWidget {
 }
 
 class _ParticlesState extends State<Particles> {
-
   final Random random = Random();
   final List<ParticleModel> particles = [];
 
@@ -52,7 +52,9 @@ class _ParticlesState extends State<Particles> {
 
   Widget loadParticles(Duration time) {
     return imageLoaded
-        ? RepaintBoundary(child: CustomPaint(painter: ParticlePainter(particles, time, image)))
+        ? RepaintBoundary(
+            child:
+                CustomPaint(painter: ParticlePainter(particles, time, image)))
         : Container();
   }
 
@@ -115,13 +117,15 @@ class ParticlePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withAlpha(50);
+    final paint = Paint()..color = Colors.white.withAlpha(50);
 
     particles.forEach((particle) {
       var progress = particle.animationProgress.progress(time);
       final animation = particle.tween.transform(progress);
-      canvas.drawImage(image, Offset(animation["x"] * size.width, animation["y"] * size.height), paint);
+      canvas.drawImage(
+          image,
+          Offset(animation["x"] * size.width, animation["y"] * size.height),
+          paint);
     });
   }
 

@@ -1,4 +1,5 @@
-import 'package:flutter_web/material.dart';
+// @dart=2.9
+import 'package:flutter/material.dart';
 
 class FancyButton extends StatefulWidget {
   const FancyButton({
@@ -21,7 +22,8 @@ class FancyButton extends StatefulWidget {
   _FancyButtonState createState() => _FancyButtonState();
 }
 
-class _FancyButtonState extends State<FancyButton> with TickerProviderStateMixin {
+class _FancyButtonState extends State<FancyButton>
+    with TickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _pressedAnimation;
 
@@ -91,7 +93,9 @@ class _FancyButtonState extends State<FancyButton> with TickerProviderStateMixin
     final radius = BorderRadius.circular(horzPadding * 0.5);
 
     return Container(
-      padding: widget.onPressed != null ?  EdgeInsets.only(bottom: 2, left: 0.5, right: 0.5) : null,
+      padding: widget.onPressed != null
+          ? EdgeInsets.only(bottom: 2, left: 0.5, right: 0.5)
+          : null,
       decoration: BoxDecoration(
         color: Colors.black87,
         borderRadius: radius,

@@ -1,6 +1,7 @@
+// @dart=2.9
 library flutter_html;
 
-import 'package:flutter_web/material.dart';
+import 'package:flutter/material.dart';
 import 'html_parser.dart';
 import 'image_properties.dart';
 
@@ -62,29 +63,29 @@ class Html extends StatelessWidget {
         style: defaultTextStyle ?? DefaultTextStyle.of(context).style,
         child: (useRichText)
             ? HtmlRichTextParser(
-          width: width,
-          onLinkTap: onLinkTap,
-          renderNewlines: renderNewlines,
-          customEdgeInsets: customEdgeInsets,
-          customTextStyle: customTextStyle,
-          html: data,
-          onImageError: onImageError,
-          linkStyle: linkStyle,
-          imageProperties: imageProperties,
-          onImageTap: onImageTap,
-          showImages: showImages,
-        )
+                width: width,
+                onLinkTap: onLinkTap,
+                renderNewlines: renderNewlines,
+                customEdgeInsets: customEdgeInsets,
+                customTextStyle: customTextStyle,
+                html: data,
+                onImageError: onImageError,
+                linkStyle: linkStyle,
+                imageProperties: imageProperties,
+                onImageTap: onImageTap,
+                showImages: showImages,
+              )
             : HtmlOldParser(
-          width: width,
-          onLinkTap: onLinkTap,
-          renderNewlines: renderNewlines,
-          customRender: customRender,
-          html: data,
-          blockSpacing: blockSpacing,
-          onImageError: onImageError,
-          linkStyle: linkStyle,
-          showImages: showImages,
-        ),
+                width: width,
+                onLinkTap: onLinkTap,
+                renderNewlines: renderNewlines,
+                customRender: customRender,
+                html: data,
+                blockSpacing: blockSpacing,
+                onImageError: onImageError,
+                linkStyle: linkStyle,
+                showImages: showImages,
+              ),
       ),
     );
   }

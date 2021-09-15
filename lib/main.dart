@@ -1,4 +1,5 @@
-import 'package:flutter_web/material.dart';
+// @dart=2.9
+import 'package:flutter/material.dart';
 
 import 'download.dart';
 import 'game.dart';
@@ -13,13 +14,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: (settings) {
-        switch(settings.name) {
-          case "/": return Welcome.route();
-          case "/game": return Game.route();
-          case "/privacy": return Privacy.route();
-          case "/support": return Support.route();
-          case "/download": return Download.route();
-          default: return Welcome.route();
+        switch (settings.name) {
+          case "/":
+            return Welcome.route();
+          case "/game":
+            return Game.route();
+          case "/privacy":
+            return Privacy.route();
+          case "/support":
+            return Support.route();
+          case "/download":
+            return Download.route();
+          default:
+            return Welcome.route();
         }
       },
       initialRoute: "/",

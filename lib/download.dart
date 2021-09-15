@@ -1,6 +1,7 @@
+// @dart=2.9
 import 'dart:html' as html;
 
-import 'package:flutter_web/material.dart';
+import 'package:flutter/material.dart';
 import 'package:tap_hero_web/button.dart';
 
 import 'privacy.dart';
@@ -125,7 +126,8 @@ class _DownloadState extends State<Download> {
                             fit: BoxFit.fill,
                           ),
                           onTap: () {
-                            html.window.location.href = "https://firebasestorage.googleapis.com/v0/b/gametaphero.appspot.com/o/tap_hero.apk?alt=media&token=cec5aa97-849c-40df-83af-4ce46b5c6019";
+                            html.window.location.href =
+                                "https://firebasestorage.googleapis.com/v0/b/gametaphero.appspot.com/o/tap_hero.apk?alt=media&token=cec5aa97-849c-40df-83af-4ce46b5c6019";
 //                            html.window.location.href =
 //                                "https://play.google.com/store/apps/details?id=com.marianozorilla.tap_hero";
                           },
@@ -158,7 +160,8 @@ class _DownloadState extends State<Download> {
                             fit: BoxFit.fill,
                           ),
                           onTap: () {
-                            html.window.location.href = "https://firebasestorage.googleapis.com/v0/b/gametaphero.appspot.com/o/Tap%20Hero%20-%20MacOS.zip?alt=media&token=2b97e50b-86f7-47da-a184-2fbf4d4336f6";
+                            html.window.location.href =
+                                "https://firebasestorage.googleapis.com/v0/b/gametaphero.appspot.com/o/Tap%20Hero%20-%20MacOS.zip?alt=media&token=2b97e50b-86f7-47da-a184-2fbf4d4336f6";
                           },
                         ),
                       ),
@@ -166,10 +169,12 @@ class _DownloadState extends State<Download> {
                         height: 60,
                       ),
                       ConstrainedBox(
-                        constraints: BoxConstraints(minWidth: 250, minHeight: 30),
+                        constraints:
+                            BoxConstraints(minWidth: 250, minHeight: 30),
                         child: FancyButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(Privacy.routeAnim());
+                            Navigator.of(context)
+                                .pushReplacement(Privacy.routeAnim());
                           },
                           child: Align(
                             alignment: Alignment.center,

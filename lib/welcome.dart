@@ -1,6 +1,7 @@
+// @dart=2.9
 import 'dart:html' as html;
 
-import 'package:flutter_web/material.dart';
+import 'package:flutter/material.dart';
 
 import 'route.dart';
 
@@ -9,12 +10,20 @@ import 'game.dart';
 import 'button.dart';
 
 class Platform {
-  var _iOS = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
+  var _iOS = [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ];
 
   bool isIOS() {
     var matches = false;
     _iOS.forEach((name) {
-      if (html.window.navigator.platform.contains(name) || html.window.navigator.userAgent.contains(name)) {
+      if (html.window.navigator.platform.contains(name) ||
+          html.window.navigator.userAgent.contains(name)) {
         matches = true;
       }
     });
@@ -22,7 +31,8 @@ class Platform {
   }
 
   bool isAndroid() =>
-      html.window.navigator.platform == "Android" || html.window.navigator.userAgent.contains("Android");
+      html.window.navigator.platform == "Android" ||
+      html.window.navigator.userAgent.contains("Android");
 
   bool isMobile() => isAndroid() || isIOS();
 
@@ -38,9 +48,11 @@ class Platform {
 
   void openStore() {
     if (isAndroid()) {
-      html.window.location.href = "https://play.google.com/store/apps/details?id=com.marianozorilla.tap_hero";
+      html.window.location.href =
+          "https://play.google.com/store/apps/details?id=com.marianozorilla.tap_hero";
     } else {
-      html.window.location.href = "https://apps.apple.com/app/taphero/id463855590";
+      html.window.location.href =
+          "https://apps.apple.com/app/taphero/id463855590";
     }
   }
 }
@@ -53,6 +65,7 @@ class Welcome extends StatefulWidget {
       builder: (_) => Welcome(),
     );
   }
+
   static Route<dynamic> route() {
     return SimpleRoute(
       name: '/',
@@ -60,11 +73,13 @@ class Welcome extends StatefulWidget {
       builder: (_) => Welcome(),
     );
   }
+
   @override
   _WelcomeState createState() => _WelcomeState();
 }
 
-class _WelcomeState extends State<Welcome> with WidgetsBindingObserver, TickerProviderStateMixin {
+class _WelcomeState extends State<Welcome>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   static var musicPlaying = false;
 
   static String skyAsset() => "background/sky.png";
@@ -102,52 +117,58 @@ class _WelcomeState extends State<Welcome> with WidgetsBindingObserver, TickerPr
   }
 
   void initAnimation() {
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 3));
-    _animationHero = Tween(begin: 0.0, end: 0.6).animate(CurvedAnimation(parent: _controller, curve: Curves.decelerate))
-      ..addStatusListener((state) {
-        if (state == AnimationStatus.completed) {
-          setState(() {
-            tapToPlay = true;
-          });
-          _tapController.forward();
-        }
-      })
-      ..addListener(() {
-        setState(() {
-          heroYAxis = _animationHero.value;
-        });
-      });
-
-    _animationBoss = Tween(begin: 1.0, end: 0.6).animate(CurvedAnimation(parent: _controller, curve: Curves.decelerate))
-      ..addListener(() {
-        setState(() {
-          bossYAxis = _animationBoss.value;
-        });
-      });
-
-    _controller.forward();
-  }
-
-  void initTapAnimation() {
-    _tapController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    _tapAnimation =
-        Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: _tapController, curve: Curves.decelerate))
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              _tapController.reverse();
-            } else if (status == AnimationStatus.dismissed) {
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+    _animationHero = Tween(begin: 0.0, end: 0.6)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.decelerate))
+          ..addStatusListener((state) {
+            if (state == AnimationStatus.completed) {
+              setState(() {
+                tapToPlay = true;
+              });
               _tapController.forward();
             }
           })
           ..addListener(() {
             setState(() {
-              tapAlpha = _tapAnimation.value;
+              heroYAxis = _animationHero.value;
             });
           });
 
-    _fadeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    _animationBoss = Tween(begin: 1.0, end: 0.6)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.decelerate))
+          ..addListener(() {
+            setState(() {
+              bossYAxis = _animationBoss.value;
+            });
+          });
+
+    _controller.forward();
+  }
+
+  void initTapAnimation() {
+    _tapController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _tapAnimation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _tapController, curve: Curves.decelerate))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _tapController.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _tapController.forward();
+        }
+      })
+      ..addListener(() {
+        setState(() {
+          tapAlpha = _tapAnimation.value;
+        });
+      });
+
+    _fadeController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     _fadeAnimation = ColorTween(begin: Colors.transparent, end: Colors.black)
-        .animate(CurvedAnimation(parent: _fadeController, curve: Curves.decelerate))
+        .animate(
+            CurvedAnimation(parent: _fadeController, curve: Curves.decelerate))
           ..addStatusListener(
             (status) {
               if (status == AnimationStatus.completed) {
@@ -281,7 +302,8 @@ class _WelcomeState extends State<Welcome> with WidgetsBindingObserver, TickerPr
               bottom: false,
               child: Container(
                 alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(top: constraints.maxHeight * 0.04, left: 15.0, right: 15.0),
+                padding: EdgeInsets.only(
+                    top: constraints.maxHeight * 0.04, left: 15.0, right: 15.0),
                 child: Image.asset(
                   logoAsset(),
                   height: 150.0,
@@ -294,7 +316,8 @@ class _WelcomeState extends State<Welcome> with WidgetsBindingObserver, TickerPr
                 opacity: tapAlpha,
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.12),
+                  padding:
+                      EdgeInsets.only(bottom: constraints.maxHeight * 0.12),
                   child: Image.asset(
                     "elements/taptostart.png",
                     height: 55.0,
@@ -338,7 +361,10 @@ class _WelcomeState extends State<Welcome> with WidgetsBindingObserver, TickerPr
                           },
                           child: Text(
                             "Download the app for ${platform.name()}",
-                            style: TextStyle(fontSize: 12, color: Colors.white, fontFamily: "Gameplay"),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontFamily: "Gameplay"),
                           ),
                           size: 30,
                           color: Color(0xFF67AC5B),
